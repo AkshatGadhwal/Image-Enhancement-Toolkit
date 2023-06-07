@@ -1,57 +1,60 @@
-# IMAGE-EDITOR-python
+# PGM Image Editor - Python (COL100)
 
-This is a simple image editor which performs a few basic tasks on an input image. 
+This repository contains a simple image editor implemented in Python. The image editor performs basic tasks on an input image in the PGM (Portable Graymap) format.
 
-# The particular tasks that it will perform includes - 
-1. Averaging
-2. Performing Edge Detection
-3. Finding the Path of least energy
+## Features
 
+The image editor supports the following tasks:
 
-Given an image we will first read the image into an array, perform some basic operations
-and generate the output image. 
+1. **Averaging Filter:** Creates an output image by calculating the average of pixel values from the input image's neighborhood. The output pixel value at location (i, j) is the average of the pixel values at locations (i − 1, j − 1), (i − 1, j), (i − 1, j + 1), (i, j − 1), (i, j), (i, j + 1), (i + 1, j − 1), (i + 1, j), and (i + 1, j + 1).
 
-* Image files will be in pgm (portable graymap format). 
-* These image files have the following specifications. 
-- When you open images in pgm format using any text editor, you will see the following.
-- The first line contains an identifier for the image which for this assignment will be P2. 
-- The next line contains dimension of the image with two numbers indicating the width and the height respectively.
--  Next number specifies the maximum allowed pixel value of the image, for this assignment it will be 255. 
--  Next we have the actual pixel values of the image given in row major ordering. That is the first
-   pixel value corresponds to location (0,0), the second for location (0, 1) and so on. For all pixels in the
-   image, we have their value between 0 and 255. 
-- The number of pixel values equals width (W) times height (H) of the image.
+2. **Edge Detection:** Detects edges in the input image by computing the horizontal and vertical gradients. The gradients are calculated using neighboring pixel values, and the edge detection result is saved as an output image named "edge.pgm".
 
-# Functions will perform the following tasks. 
+3. **Path of Least Energy:** Implements an algorithm to find the path of least energy from the top to the bottom of the image. The energy image is derived from the edge image computed in the previous step. The algorithm computes the minimum energy path by considering the energy values and selecting the path with the lowest cumulative energy.
 
-# 1. Averaging filter:
-  Create an image of the size WxH using an array of integers. Pixel value at location (i,j) of the image equals the
-  average of the pixel values at locations (i − 1, j − 1), (i − 1, j), (i − 1, j + 1),(i,j−1),(i,j),(i,j+1),(i+1,j−1),(i+1,j),(i+1,j+1) of the input image. 
-  
-  Formally pixel value at location (i, j) is
-  (image[i-1][j-1]+image[i-1][j]+image[i-1][j+1]+image[i][j1]+image[i][j]+image[i][j+1]+image[i+1][j-1]+ image[i+1][j]+image[i+1][j+1])/9 
-  
-# 2. Edge detection:
-  The idea here is to compute some function of pixel values among neighbouring cells in horizontal and vertical directions. 
-  This function approximates how close these pixel values are relative to each other. If pixel values in a neighbourhood are 
-  similar, then this function value would be very small or 0 where as if there is a significant change in neighbourhood pixel
-  values, then this function would have non-zero values. We detect presence of an edge by noticing how this function value changes. 
-  The above is for intuition on how this works. Follow the steps mentioned below to detect edges of an image and output image to 
-  ‘edge.pgm’ file.
-  - Compute values of grad(i,j) = sqrt(hdif(i, j)*hdif(i,j) + vdif(i, j)*vdif(i,j)) for all i, j in the image,
-    where hdiff and vdiff are the horizontal and vertical gradients and are computed as follows:
-   # hdif(i,j) = (image[i-1][j-1]-image[i-1][j+1]) + 2(image[i][j-1]-image[i][j+1]) + (image[i+1][j-1]- image[i+1][j+1])
-   # vdif(i,j) = (image[i-1][j-1]-image[i+1][j-1]) + 2(image[i-1][j]-image[i+1][j]) + (image[i-1][j+1]- image[i+1][j+1]) 
-  
-# 3. Path of least energy:
-  This part of the assignment requires you to implement an algorithm that finds a path from top of the image to the bottom, 
-  which has the least energy. Consider that your edge image as computed above gives the energy image. Now you have to compute 
-  the path of minimum energy and color that path with white (or 255 value). Start from the top row of the image and compute 
-  the energy of the pixels for the next row as follows. Please note that for the top row the pixels of MinEnergy image will 
-  have the same value as edge image.
+## Usage
 
-  # MinEnergy(i,j) = edge(i,j) + min(MinEnergy(i-1,j-1), MinEnergy(i-1,j), MinEnergy(i-1,j+1))
-  
-  
-  
-  
+To use the PGM Image Editor, follow these steps:
+
+1. Clone the repository: `git clone https://github.com/AkshatGadhwal/PGM-Image_Editor_Python_COL100.git`
+2. Navigate to the project directory: `cd PGM-Image_Editor_Python_COL100`
+3. Run the Python script with the desired operation:
+
+   - For the averaging filter: `python image_editor.py average <input_image.pgm> <output_image.pgm>`
+   - For edge detection: `python image_editor.py edge_detect <input_image.pgm>`
+   - For the path of least energy: `python image_editor.py path_energy <input_image.pgm> <output_image.pgm>`
+
+   Replace `<input_image.pgm>` with the path to the input image file in PGM format, and `<output_image.pgm>` with the desired name for the output image file.
+
+## File Format
+
+The input images should be in the PGM format, which has the following specifications:
+
+- The first line contains the identifier for the image, which for this assignment is "P2".
+- The second line contains the dimensions of the image, indicating the width and height respectively.
+- The next line specifies the maximum allowed pixel value for the image, which is 255 for this assignment.
+- The subsequent lines contain the actual pixel values of the image in row-major order.
+
+## Example
+
+Here is an example of using the PGM Image Editor:
+
+```shell
+python image_editor.py average input.pgm output.pgm
+```
+
+This command applies the averaging filter to the input image `input.pgm` and saves the output image as `output.pgm`.
+
+## Contributions
+
+Contributions to this repository are welcome. If you find any issues or have improvements to suggest, please feel free to open a pull request.
+
+## License
+
+This repository is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
+
+## Acknowledgments
+
+Special thanks to the COL100 course instructors and teaching assistants for providing the assignment and guidance throughout the course.
+
+Happy image editing!
